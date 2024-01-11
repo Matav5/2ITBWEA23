@@ -17,17 +17,23 @@
     vek int UNSIGNED
     );
     */
+   
         if(isset($_POST["pridejDite"])){
-            $con = new mysqli("localhost","root","","2itbwea23") or die;
+
+            require_once 'db.php';
             echo "Já se připojil";
             
             $jmeno = $_POST["jmeno"];
-            $jeHodny = $_POST["jeHodny"] == "on" ;
+
+            $jeHodny = isset($_POST["jeHodny"]) && $_POST["jeHodny"] == "on" ;
             $stat = $_POST["stat"];
             $prejeSi = $_POST["prejeSi"];
             $vek = $_POST["vek"];
-            echo $jeHodny;
+
+            if(!$jeHodny)
+                $jeHodny = 0;
             $sql = "INSERT INTO deti VALUES(NULL, '$jmeno', $jeHodny ,'$stat'  ,'$prejeSi' ,$vek);";
+
             $con->query($sql);
 
         }
