@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rezervační systém Kina StříbrCinema</title>
+    <style>
+        .error{
+            color:red;
+            font-style: italic;
+        }
+
+    </style>
+</head>
+<body>
+    <!-- Dodělat labely, dodělat zprávy -->
+    <form action="server.php" method="post" id="form">
+        <label for="jmeno">Jméno:</label>
+        <input type="text" name="jmeno" id="jmeno">
+        <br>
+        <label for="prijmeni">Příjmení:</label>
+        <input type="text" name="prijmeni" id="prijmeni">
+        <br>
+        <label for="telefon">Telefon:</label>
+        <input type="text" name="telefon" id="telefon">
+        <br>
+        <input type="email" name="email" id="email">
+        <br>
+        <select name="film" id="film">
+            <option value="Fear Street 1973">Fear Street 1973</option>
+            <option value="Barbie">Barbie</option>
+            <option value="Taylor Swift: The Eras Tour">Taylor Swift: The Eras Tour</option>
+            <option value="Auta 4">Auta 4</option>
+        </select>
+        <br>
+        <input type="number" name="pocetMist" id="pocetMist">
+        <br>
+        <input type="password" name="tajnySluvko" id="tajnySluvko">
+        <br>
+        <input type="password" name="tajnySluvkoKontrola" id="tajnySluvkoKontrola">
+        <br>
+        <input type="submit" name="rezervace" value="Rezervuj!">
+    </form>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.min.js"></script>
+    <script>
+
+        $("#form").validate(
+            {
+                rules:{
+                    jmeno: {
+                        required: true,
+                        minlength: 2     
+                    },
+                    prijmeni: {
+                        required: true,
+                        minlength: 5     
+                    },
+                    telefon: {
+                        rangelength:[9,9],
+                        number: true
+                    },
+                    email:"required",
+                    pocetMist:{
+                        required:true,
+                        range:[1,30]
+                    },
+                    tajnySluvko:{
+                        required:true,
+                        minlegth:8
+                    },
+                    tajnySluvkoKontrola:{
+                        equalTo: tajnySluvko
+                    }
+                },
+
+                messages:{
+                    jmeno:{
+                        required: "Hele brácho chybí ti jméno!",
+                        minlength: "Moc krátké"
+                    },
+                    prijmeni:{
+                        required: "Hele brácho chybí ti příjmení!",
+                        minlength: "Moc krátké"
+                    }
+                },
+                submitHandler: function(form){
+                    alert("Odesílá se");
+
+                    //PHP
+                    form.submit();
+                
+                    //JS Ajax
+
+                }
+            }
+        )
+        
+    </script>
+</body>
+</html>

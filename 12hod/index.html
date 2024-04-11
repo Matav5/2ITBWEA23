@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Úkolníček</title>
+    <script src="jquery-3.7.1.min.js"></script>
+    <style>
+        .text-gradient{
+            background: -webkit-radial-gradient(#10ff38, #00bfff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+    </style>
+</head>
+<body>
+    <input type="text" name="vstupUkol" id="vstupUkol" placeholder="Vlož úkol...">
+    <button onclick="PridejUkol()">Přidat úkol</button>
+    <ul>
+
+    </ul>
+    <script>
+
+        $("body").prepend("<h1>Úkolníček</h1>").append("<hr>");
+        $("li").click(SkrtniUkol);
+        
+        //Na enter se přidá úkol
+        $("#vstupUkol").keypress((e) => {
+            if(e.key == "Enter")
+                PridejUkol();
+        });
+        
+
+
+        $(document).on("click","li",SkrtniUkol)
+       // console.log($("#vstupUkol"));
+        function PridejUkol(){
+            let ukol = $("#vstupUkol").val();
+            $("ul").append(`<li>${ukol}</li>`);
+            $("#vstupUkol").val("");
+
+            $("h1").removeClass("text-gradient");
+        }
+        function SkrtniUkol(){
+            //alert("Zkusil jsem to šktrnout");
+            console.log($(this).css("text-decoration","line-through"));
+
+
+           let ukoly = $("li").toArray();
+           for(let i in ukoly){
+              //console.log($(ukoly[i]).css("text-decoration") );
+              //Pokud je aspoň jeden nezaškrtnutej => GG
+              if(!$(ukoly[i]).css("text-decoration").includes("line-through"))
+                    return;
+           }
+
+           //Kód na hezký věci za odměnu
+           $("h1").addClass("text-gradient");
+           $("li").remove();
+        }
+
+    </script>
+</body>
+</html>

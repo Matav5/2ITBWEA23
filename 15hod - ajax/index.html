@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Receptář</title>
+</head>
+<body>
+    <label for="title">Název Receptu:</label>
+    <input type="text" name="title" id="title">
+
+    <label for="ingredients">Ingredience:</label>
+    <textarea name="ingredients" id="ingredients" cols="30" rows="10"></textarea>
+
+    <label for="directions">Postup:</label>
+    <textarea name="directions" id="directions" cols="30" rows="10"></textarea>
+
+    <button onclick="PridejRecept()">Přidej Recept</button>
+    <div id="recepty">
+
+
+    </div>
+
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://cdn.ckeditor.com/ckeditor5/41.2.1/classic/ckeditor.js"></script>
+
+<script>
+
+    let editorIngredients;
+    ClassicEditor
+    .create(document.getElementById("ingredients"))
+    .then(editor =>{
+        editorIngredients = editor;
+    });
+    let editorDirections;
+    ClassicEditor.create(document.getElementById("directions"))
+    .then(editor =>{
+        editorDirections = editor;
+    });
+
+    StahniRecepty();
+
+    function StahniRecepty(){
+        $(".recept").remove();
+        $.get("https://recipes.matav.cz/recipes",OnReceptyStahnuty);
+    }
+    function OnReceptyStahnuty(data, status){
+        console.log(data);
+        for(let i=0; i< data.length; i++){
+            
+            VytvorRecept(data[i]);
+        
+        }
+
+        console.log(status);
+    }
+
+    function VytvorRecept(recept){
+
+        $("#recepty").append(
+            `
+            <div class="recept">
+                <h1>${recept.title}</h1>
+                <p>${recept.ingredients}</p>
+                <p>${recept.directions}</p>
+            </div>
+            `);
+    }
+    function PridejRecept(){
+        let data = {};
+        data.title = $("#title").val();
+        data.ingredients = editorIngredients.getData();
+        data.directions = editorDirections.getData();
+        console.log(data);
+        $.post("https://recipes.matav.cz/recipes",data,OnReceptPridan)
+    }
+
+
+    function OnReceptPridan(data, status){
+        console.log(data);
+        console.log(status);
+        StahniRecepty();
+    }
+</script>
+</body>
+</html>

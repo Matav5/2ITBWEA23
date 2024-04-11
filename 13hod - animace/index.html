@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vizualizér</title>
+    <style>
+        .bar{
+            width: 30px;
+            height: 420px;
+            background-color: blueviolet;
+            display: inline-block;
+            margin: 2px;
+            vertical-align: top;
+        }
+    </style>
+</head>
+<body>
+    
+    <button onclick="ToggleInterval()">Spusť Interval</button>
+    <script src="..\12hod\jquery-3.7.1.min.js"></script>
+    <script>
+        for(let i =0; i< 25;i++){
+            $("body").prepend("<div class='bar' bezianimace='nebezi' onmouseover='PrejedPrvek(this)'></div>");
+        }
+        function PrejedPrvek(bar){
+            console.log($(bar));
+            if($(bar).attr("bezianimace") == "bezi")
+                return;
+            //0-1
+            //100 -499.9999
+            let prodleva = Math.random() * 400 + 100;
+
+            //0-255
+            let r = Math.floor(Math.random() * 256);
+            let g = Math.floor(Math.random() * 256);
+            let b = Math.floor(Math.random() * 256); 
+            console.log(r);
+            console.log(g);
+            console.log(b);
+
+            $(bar).css("background-color",`rgb(${r},${g},${b})`)
+            .slideUp(prodleva)
+            .slideDown(prodleva,KonecAnimace);
+            $(bar).attr("bezianimace","bezi");
+        }
+        function KonecAnimace(){
+            $(this).css("background-color","").attr("bezianimace","nebezi");
+            let audio = new Audio("C:\\Users\\Matav\\Desktop\\Meme stuff\\Among Us Drip Theme Song Original Among Us Trap Remix  Amogus Meme Music.mp3");
+                audio.play();
+        }
+let interval = null;
+        function ToggleInterval(){
+            if(interval == null){
+        interval = setInterval(()=> {
+            $(".bar").each((x,el) => PrejedPrvek(el));
+        },500);
+    }
+    else{
+        clearInterval(interval);
+        interval = null;
+    }
+    }
+    </script>
+</body>
+</html>     
